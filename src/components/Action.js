@@ -1,8 +1,8 @@
 import React from 'react'
 
-function Action() {
+function Action({handleClick,type,className}) {
   return (
-    <div>Action</div>
+    <div className={className} onClick={handleClick}>{type}</div>
   )
 }
 
