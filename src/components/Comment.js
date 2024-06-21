@@ -5,6 +5,12 @@ function Comment({comment}) {
     const [input,setInput] = useState("");
     const [editMode,setEditMode] = useState(false);
     const [showInput,setShowInput] = useState(false);
+    const [expand,setExpand] = useState(true);
+
+    const handleNewComment = () => {
+        setExpand(!expand);
+        setShowInput(true);
+    }
     const onAddComment = () => {};
   return (
     <div>
@@ -17,7 +23,10 @@ function Comment({comment}) {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder='type...' />
-            <Action />
+            <Action 
+            className="reply-comment"
+            type="COMMENT"
+            handleClick={onAddComment} />
             </>
         ) : (
             <>
@@ -30,10 +39,20 @@ function Comment({comment}) {
                 </>
             ) : (
                 <>
-                <Action className="reply" type="REPLY" /> 
+                <Action className="reply" type={
+                    <>
+                        {expand? (
+                            <UpArrow width="10px" height="10px" />
+                        ) : (
+                            <DownArrow width="10px" height="10px" />
+                        )}{" "}
+                        REPLY
+                    </>
+                 }
+                 handleClick={handleNewComment} /> 
                 <Action className="reply" type="EDIT"
                 handleClick = {() => {
-                    setEditMode(false);
+                    setEditMode(true);
                 }} /> 
                 <Action className="reply" type="DELETE" /> 
                 </>
@@ -42,7 +61,21 @@ function Comment({comment}) {
             </>
         )}
         </div>
-        <div style={{ paddingLeft: 25}} >
+        <div style={{ display:expand ? "block":"none", paddingLeft: 25}} >
+        {showInput && (
+            <div className='inputContainer'>
+                <input 
+                type='text'
+                className='inputContainer__input'
+                autoFocus
+                onChange={(e) => setInput(e.target.value)} />
+                <Action className="reply" type="REPLY" />
+                <Action className="reply" type="CANCEL"
+                handleClick={() => {
+                    setShowInput(false);
+                }} />
+            </div>
+        )}
         {comment ?.items?.map((cmnt) => {
             return <Comment key={cmnt.id} comment={cmnt} />
         })}
