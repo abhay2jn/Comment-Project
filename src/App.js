@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Comment from "./components/Comment"
-
+import useNode from "./hooks/useNode";
 
 const comments = {
   id:1,
@@ -25,7 +25,8 @@ export default function App() {
   }
   return (
     <div className="App">
-    <Comment comments={commentsData} />
+    <Comment handleInsertNode={handleInsertNode}
+    handleEditNode={handleEditNode} handleDeleteNode={handleDeleteNode} comments={commentsData} />
     </div>
   );
 }

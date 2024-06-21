@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Action from './Action';
 
-function Comment({comment}) {
+function Comment({comment, handleInsertNode, handleEditNode , handleDeleteNode}) {
     const [input,setInput] = useState("");
     const [editMode,setEditMode] = useState(false);
     const [showInput,setShowInput] = useState(false);
@@ -11,7 +11,12 @@ function Comment({comment}) {
         setExpand(!expand);
         setShowInput(true);
     }
-    const onAddComment = () => {};
+    const onAddComment = () => {
+        setExpand(true);
+        handleInsertNode(comment.id, input);
+        setShowInput(false);
+        setInput("");
+    };
   return (
     <div>
         <div className={comment.id === 1 ? "inputContainer" : "commentContainer"}>
@@ -77,7 +82,10 @@ function Comment({comment}) {
             </div>
         )}
         {comment ?.items?.map((cmnt) => {
-            return <Comment key={cmnt.id} comment={cmnt} />
+            return <Comment key={cmnt.id} 
+            handleInsertNode={handleInsertNode}
+            handleEditNode={handleEditNode}
+            handleDeleteNode={handleDeleteNode} comment={cmnt} />
         })}
         </div>
     </div>
