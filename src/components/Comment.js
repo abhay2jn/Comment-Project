@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Action from './Action';
 
 function Comment({comment, handleInsertNode, handleEditNode , handleDeleteNode}) {
@@ -6,18 +6,33 @@ function Comment({comment, handleInsertNode, handleEditNode , handleDeleteNode})
     const [editMode,setEditMode] = useState(false);
     const [showInput,setShowInput] = useState(false);
     const [expand,setExpand] = useState(false);
-    const inputRef = useRef();
+    const inputRef = useRef(null);
+
+    useEffect(() => {
+        inputRef?.current?.focus();
+    },[editMode])
 
     const handleNewComment = () => {
         setExpand(!expand);
         setShowInput(true);
     }
     const onAddComment = () => {
-        setExpand(true);
-        handleInsertNode(comment.id, input);
-        setShowInput(false);
-        setInput("");
+        if(editMode) {
+            handleEditNode(comment.id,inputRef?.current?.innerText);
+        } else {
+            setExpand(true);
+            handleInsertNode(comment.id,input);
+            setShowInput(false);
+            setInput("");
+        }
+        if (editMode) {
+            setEditMode(false);
+        }
     };
+    const handleDelete = () => {
+        handleDeleteNode(comment.id);
+    };
+
   return (
     <div>
         <div className={comment.id === 1 ? "inputContainer" : "commentContainer"}>
@@ -37,12 +52,17 @@ function Comment({comment, handleInsertNode, handleEditNode , handleDeleteNode})
         ) : (
             <>
             <span contentEditable={editMode}
-            suppressContentEditableWarning={editMode} style={{ wordWrap : "break-word"}}>{comment.name}</span>
+            suppressContentEditableWarning={editMode} style={{ wordWrap : "break-word"}}
+            ref={inputRef}>{comment.name}</span>
             <div style={{display:"flex",marginTop: "5px"}}>
             {editMode ? (
                 <>
-                <Action className="reply" type="SAVE" />
-                <Action className="reply" type="CANCEL" />  
+                <Action className="reply" type="SAVE" handleClick={onAddComment} />
+                <Action className="reply" type="CANCEL" handleClick={() => {
+                    if(inputRef.current)
+                    inputRef.current.innerText = comment.name;
+                    setEditMode(false);
+                }} />  
                 </>
             ) : (
                 <>
@@ -61,7 +81,7 @@ function Comment({comment, handleInsertNode, handleEditNode , handleDeleteNode})
                 handleClick = {() => {
                     setEditMode(true);
                 }} /> 
-                <Action className="reply" type="DELETE" /> 
+                <Action className="reply" type="DELETE" handleClick={handleDelete} /> 
                 </>
             )}
             </div>
@@ -80,6 +100,7 @@ function Comment({comment, handleInsertNode, handleEditNode , handleDeleteNode})
                 <Action className="reply" type="CANCEL"
                 handleClick={() => {
                     setShowInput(false);
+                    if(!comment?.items?.length) setExpand(false);
                 }} />
             </div>
         )}

@@ -19,7 +19,7 @@ export default function App() {
     setCommentsData(finalStructure);
   }
   const handleDeleteNode = (folderId) => {
-    const finalStructure = editNode(commentsData, folderId);
+    const finalStructure = deleteNode(commentsData, folderId);
     const temp = { ...finalStructure};
     setCommentsData(temp);
   }
