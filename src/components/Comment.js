@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import Action from './Action';
 
 function Comment({comment, handleInsertNode, handleEditNode , handleDeleteNode}) {
     const [input,setInput] = useState("");
     const [editMode,setEditMode] = useState(false);
     const [showInput,setShowInput] = useState(false);
-    const [expand,setExpand] = useState(true);
+    const [expand,setExpand] = useState(false);
+    const inputRef = useRef();
 
     const handleNewComment = () => {
         setExpand(!expand);
@@ -35,7 +36,8 @@ function Comment({comment, handleInsertNode, handleEditNode , handleDeleteNode})
             </>
         ) : (
             <>
-            <span style={{ wordWrap : "break-word"}}>{comment.name}</span>
+            <span contentEditable={editMode}
+            suppressContentEditableWarning={editMode} style={{ wordWrap : "break-word"}}>{comment.name}</span>
             <div style={{display:"flex",marginTop: "5px"}}>
             {editMode ? (
                 <>
@@ -74,7 +76,7 @@ function Comment({comment, handleInsertNode, handleEditNode , handleDeleteNode})
                 className='inputContainer__input'
                 autoFocus
                 onChange={(e) => setInput(e.target.value)} />
-                <Action className="reply" type="REPLY" />
+                <Action className="reply" type="REPLY" handleClick={onAddComment}/>
                 <Action className="reply" type="CANCEL"
                 handleClick={() => {
                     setShowInput(false);
