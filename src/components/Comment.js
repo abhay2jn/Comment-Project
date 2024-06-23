@@ -1,4 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
+import { TiArrowSortedUp } from "react-icons/ti";
+import { TiArrowSortedDown } from "react-icons/ti";
 import Action from './Action';
 
 function Comment({comment, handleInsertNode, handleEditNode , handleDeleteNode}) {
@@ -69,9 +71,9 @@ function Comment({comment, handleInsertNode, handleEditNode , handleDeleteNode})
                 <Action className="reply" type={
                     <>
                         {expand? (
-                            <UpArrow width="10px" height="10px" />
+                            <TiArrowSortedUp width="10px" height="10px" />
                         ) : (
-                            <DownArrow width="10px" height="10px" />
+                            <TiArrowSortedDown width="10px" height="10px" />
                         )}{" "}
                         REPLY
                     </>
