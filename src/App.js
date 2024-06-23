@@ -11,7 +11,7 @@ export default function App() {
 
   const {insertNode, editNode , deleteNode} = useNode();
   const handleInsertNode = (folderId, item) => {
-    const finalStructure = editNode(commentsData, folderId , item);
+    const finalStructure = insertNode(commentsData, folderId , item);
     setCommentsData(finalStructure);
   } 
   const handleEditNode = (folderId , value) => {
