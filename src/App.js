@@ -5,7 +5,7 @@ import useNode from "./hooks/useNode";
 const comments = {
   id:1,
   items: [],
-}
+};
 export default function App() {
   const [commentsData,setCommentsData] = useState(comments);
 
@@ -26,7 +26,7 @@ export default function App() {
   return (
     <div className="App">
     <Comment handleInsertNode={handleInsertNode}
-    handleEditNode={handleEditNode} handleDeleteNode={handleDeleteNode} comments={commentsData} />
+    handleEditNode={handleEditNode} handleDeleteNode={handleDeleteNode} comment={commentsData} />
     </div>
   );
 }
