@@ -47,7 +47,7 @@ function Comment({comment, handleInsertNode, handleEditNode , handleDeleteNode})
             onChange={(e) => setInput(e.target.value)}
             placeholder='type...' />
             <Action 
-            className="reply-comment"
+            className="reply comment"
             type="COMMENT"
             handleClick={onAddComment} />
             </>
